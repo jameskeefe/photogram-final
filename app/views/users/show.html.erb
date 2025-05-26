@@ -64,7 +64,7 @@
                 <li><%= r.sender.username %></li>
               </div>
               <div>
-                <form target="/modify_follow_request/<%=r.id%>" type="post">
+                <form action="/modify_follow_request/<%=r.id%>" method="post">
                   <input type="hidden" id="query_status" name="query_status" value="accepted">
                   <button>
                     Accept
@@ -72,7 +72,7 @@
                 </form>
               </div>
               <div>
-                <form target="/modify_follow_request/<%=r.id%>" type="post">
+                <form action="/modify_follow_request/<%=r.id%>" method="post">
                   <input type="hidden" id="query_status" name="query_status" value="rejected">
                   <button>
                     Reject
