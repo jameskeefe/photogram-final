@@ -1,2 +1,181 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+
+<div>
+  <h1> 
+    <%= @the_username %>
+  </h1>
+</div>
+
+<div>
+  <div>
+    <a href="/users">
+      Go back
+    </a>
+  </div>
+</div>
+
+<div>
+  <dl>
+    <dt>
+      Private
+    </dt>
+    <dd>
+      <%= @the_user.private %>
+    </dd>
+
+    <dt>
+      Followers
+    </dt>
+    <dd>
+      <div>
+        <%= @the_user.accepted_received_follow_requests.count() %>
+      </div>
+      <div>
+      <% if current_user != @the_user %>
+        <% fr = current_user.sent_follow_requests %>
+        <% req = fr.where({:recipient_id => @the_user.id}).at(0) %>
+        <% if req != nil %>
+            <% if req.status == 'accepted' %>
+              <a href="/delete_follow_request/<%= req.id %>">Unfollow</a>
+            <% elsif req.status == 'pending' %>
+              Request sent. <a href="/delete_follow_request/<%= req.id %>">Cancel</a>
+            <% else %>
+            <% end %>
+
+        <% else %>
+            <form action="/insert_follow_request" method="post" >
+
+            <input type="hidden" id="query_sender_id" name="query_sender_id" value=<%=current_user.id%>>
+            <input type="hidden" id="query_recipient_id" name="query_recipient_id" value=<%=@the_user.id%>>
+
+            <button>
+              Follow
+            </button>
+            </form>
+        <% end %>
+      <% else %>
+        <div>
+          <b>Pending follow requests</b>
+        </div>
+        <div>
+          <ul>
+            <% pend = current_user.received_follow_requests.where({:status => "pending"}).all() %>
+            <% pend.each do |r| %>
+              <div>
+                <li><%= r.sender.username %></li>
+              </div>
+              <div>
+                <form target="/modify_follow_request/<%=r.id%>" type="post">
+                  <input type="hidden" id="query_status" name="query_status" value="accepted">
+                  <button>
+                    Accept
+                  </button>
+                </form>
+              </div>
+              <div>
+                <form target="/modify_follow_request/<%=r.id%>" type="post">
+                  <input type="hidden" id="query_status" name="query_status" value="rejected">
+                  <button>
+                    Reject
+                  </button>
+                </form>
+              </div>
+            <% end%>
+          </ul>
+      <% end %>
+      </div>
+    </dd>
+
+    <dt>
+      Following
+    </dt>
+    <dd>
+      <%= @the_user.accepted_sent_follow_requests.count() %>
+    </dd>
+  </dl>
+</div>
+
+<div>
+  <ul>
+    <div>
+      <li><a href="/users/<%=@the_username%>">Profile</a> </li>
+    </div>
+
+    <div>
+      <li><a href="/users/<%=@the_username%>/liked_photos">Liked photos</a> </li>
+    </div>
+
+    <div>
+      <li><a href="/users/<%=@the_username%>/feed">Feed</a> </li>
+    </div>
+
+    <div>
+      <li><a href="/users/<%=@the_username%>/discover">Discover</a> </li>
+    </div>
+  </ul>
+</div>
+
+<hr>
+
+<h2>
+  Own photos (<%=@the_user.own_photos.count()%>)
+</h2>
+
+<div>
+  <table border="1">
+    <tr>
+      <th>
+        Image
+      </th>
+
+      <th>
+        Owner
+      </th>
+
+      <th>
+        Caption
+      </th>
+
+      <th>
+        Posted
+      </th>
+
+      <th>
+        Likes
+      </th>
+
+      <th>
+      </th>
+    </tr>
+
+    <% @the_user.own_photos.each do |a_photo| %>
+      <tr>
+        <td>
+          <img src="<%=a_photo.image_url%>" width="100" height="100">
+        </td>
+
+        <td>
+          <%= @the_username %>
+        </td>
+
+        <td>
+          <%= a_photo.caption %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_photo.created_at) %> ago
+        </td>
+
+        <td>
+          <%= a_photo.likes_count %>
+        </td>
+
+        <td>
+          <a href="/photos/<%= a_photo.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+</div>
