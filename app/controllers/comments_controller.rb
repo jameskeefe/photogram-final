@@ -26,11 +26,11 @@ class CommentsController < ApplicationController
     if the_comment.valid?
       the_comment.save
 
-      p = Photo.where(:id => params.fetch("query_photo_id")).at(0)
+      p = Photo.where({:id => params.fetch("query_photo_id")}).at(0)
       p.comments_count = p.comments_count + 1
       p.save
 
-      u = User.where(:id => params.fetch("query_author_id")).at(0)
+      u = User.where({:id => params.fetch("query_author_id")}).at(0)
       u.comments_count = u.comments_count + 1
       u.save
       
@@ -48,11 +48,11 @@ class CommentsController < ApplicationController
 
     the_comment.destroy
 
-    p = Photo.where(:id => photo_id).at(0)
+    p = Photo.where({:id => photo_id}).at(0)
     p.comments_count = p.comments_count - 1
     p.save
 
-    u = User.where(:id => user_id).at(0)
+    u = User.where({:id => user_id}).at(0)
     u.comments_count = u.comments_count - 1
     u.save
 

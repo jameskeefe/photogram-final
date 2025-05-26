@@ -25,11 +25,11 @@ class LikesController < ApplicationController
     if the_like.valid?
       the_like.save
 
-      p = Photo.where(:id => params.fetch("query_photo_id")).at(0)
+      p = Photo.where({:id => params.fetch("query_photo_id")}).at(0)
       p.likes_count = p.likes_count + 1
       p.save
 
-      u = User.where(:id => params.fetch("query_fan_id")).at(0)
+      u = User.where({:id => params.fetch("query_fan_id")}).at(0)
       u.likes_count = u.likes_count + 1
       u.save
 
@@ -47,11 +47,11 @@ class LikesController < ApplicationController
 
     the_like.destroy
 
-    p = Photo.where(:id => photo_id).at(0)
+    p = Photo.where({:id => photo_id}).at(0)
     p.likes_count = p.likes_count - 1
     p.save
 
-    u = User.where(:id => user_id).at(0)
+    u = User.where({:id => user_id}).at(0)
     u.likes_count = u.likes_count - 1
     u.save
 
