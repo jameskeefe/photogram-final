@@ -7,15 +7,26 @@
 
   <body>
     <nav>
-      <a href="/">Photos</a>
+      <ul>
+      <div>
+        <li><a href="/users">All users</a> </li>
+      </div>
+      <div>
+        <li><a href="/photos">All public photos</a> </li>
+      </div>
       <% if current_user != nil %>
-        <a href="/users/sign_out">Sign out</a>
-        <a href="/users/edit">Edit profile</a>
-      <% else %>
-        <a href="/users/sign_up">Sign up</a>
-        <a href="/users/sign_in">Sign in</a>
-      <% end %>
+        <div>
+        <li><a href="/users/edit"><%= current_user.username %></a></li>
+        </div>
+        <div>
+        <li><a href="/users/sign_out">Sign out</a></li>
+        </div>
 
+      <% else %>
+        <li><a href="/users/sign_in">Sign in</a></li>
+        <li><a href="/users/sign_up">Sign up</a></li>
+      <% end %>
+      </ul>
     </nav>
 
     <%= yield %>

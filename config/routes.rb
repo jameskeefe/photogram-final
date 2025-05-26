@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  devise_for :users
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # Defines the root path route ("/")
+  root "users#index"
+
+  get("/users", { :controller => "users", :action => "index" })
+  get("/users/:path_id", { :controller => "users", :action => "show" })
+
+#  get 'users/index'
+#  get 'users/show'
   # Routes for the Photo resource:
   # CREATE
   post("/insert_photo", { :controller => "photos", :action => "create" })
@@ -73,9 +84,5 @@ Rails.application.routes.draw do
 
   #------------------------------
 
-  devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  root "photos#index"
 end
