@@ -1,0 +1,126 @@
+
+<div>
+  <h1> 
+    <%= @the_username %>
+  </h1>
+</div>
+
+<div>
+  <div>
+    <a href="/users">
+      Go back
+    </a>
+  </div>
+</div>
+
+<div>
+  <dl>
+    <dt>
+      Private
+    </dt>
+    <dd>
+      <%= @the_user.private %>
+    </dd>
+
+    <dt>
+      Followers
+    </dt>
+    <dd>
+      <div>
+        <%= @the_user.accepted_received_follow_requests.count() %>
+    </dd>
+
+    <dt>
+      Following
+    </dt>
+    <dd>
+      <%= @the_user.accepted_sent_follow_requests.count() %>
+    </dd>
+  </dl>
+</div>
+
+<div>
+  <ul>
+    <div>
+      <li><a href="/users/<%=@the_username%>">Profile</a> </li>
+    </div>
+
+    <div>
+      <li><a href="/users/<%=@the_username%>/liked_photos">Liked photos</a> </li>
+    </div>
+
+    <div>
+      <li><a href="/users/<%=@the_username%>/feed">Feed</a> </li>
+    </div>
+
+    <div>
+      <li><a href="/users/<%=@the_username%>/discover">Discover</a> </li>
+    </div>
+  </ul>
+</div>
+
+<hr>
+
+<h2>
+  <%= @t %> (<%=@photo_stream.count()%>)
+</h2>
+
+<div>
+  <table border="1">
+    <tr>
+      <th>
+        Image
+      </th>
+
+      <th>
+        Owner
+      </th>
+
+      <th>
+        Caption
+      </th>
+
+      <th>
+        Posted
+      </th>
+
+      <th>
+        Likes
+      </th>
+
+      <th>
+      </th>
+    </tr>
+
+    <% @photo_stream.each do |a_photo| %>
+      <tr>
+        <td>
+          <img src="<%=a_photo.image_url%>" width="100" height="100">
+        </td>
+
+        <td>
+          <%= a_photo.poster.username %>
+        </td>
+
+        <td>
+          <%= a_photo.caption %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_photo.created_at) %> ago
+        </td>
+
+        <td>
+          <%= a_photo.likes_count %>
+        </td>
+
+        <td>
+          <a href="/photos/<%= a_photo.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+</div>

@@ -25,6 +25,15 @@ class CommentsController < ApplicationController
 
     if the_comment.valid?
       the_comment.save
+
+      p = Photo.where(:id => params.fetch("query_photo_id")).at(0)
+      p.comments_count = p.comments_count + 1
+      p.save
+
+      u = User.where(:id => params.fetch("query_author_id")).at(0)
+      u.comments_count = u.comments_count + 1
+      u.save
+      
       redirect_to("/photos/#{the_comment.photo_id}", { :notice => "Comment created successfully." })
     else
       redirect_to("/photos/#{the_comment.photo_id}", { :alert => the_comment.errors.full_messages.to_sentence })
@@ -34,9 +43,18 @@ class CommentsController < ApplicationController
   def destroy
     the_id = params.fetch("path_id")
     the_comment = Comment.where({ :id => the_id }).at(0)
+    user_id = the_comment.author_id
     photo_id = the_comment.photo_id
 
     the_comment.destroy
+
+    p = Photo.where(:id => photo_id).at(0)
+    p.comments_count = p.comments_count - 1
+    p.save
+
+    u = User.where(:id => user_id).at(0)
+    u.comments_count = u.comments_count - 1
+    u.save
 
     redirect_to("/photos/#{photo_id}", { :notice => "Comment deleted successfully."} )
   end

@@ -7,9 +7,8 @@ Rails.application.routes.draw do
 
   get("/users", { :controller => "users", :action => "index" })
   get("/users/:path_id", { :controller => "users", :action => "show" })
+  get("/users/:path_id/:stream_type", { :controller => "users", :action => "photo_stream" })
 
-#  get 'users/index'
-#  get 'users/show'
   # Routes for the Photo resource:
   # CREATE
   post("/insert_photo", { :controller => "photos", :action => "create" })
