@@ -11,11 +11,9 @@
         </th>
 
         <th>
-          Follow?
         </th>
 
         <th>
-          Link
         </th>
       </tr>
 
@@ -26,11 +24,38 @@
         </td>
 
         <td>
-          <%= a_user.private %>
+          <% if a_user.private %>
+            Yes
+          <% else %>
+            No
+          <% end%>
         </td>
 
         <td>
-          Send a follow request!
+          <% if current_user != nil %>
+              <% fr = current_user.sent_follow_requests %>
+              <% req = fr.where({:recipient_id => a_user.id}).at(0) %>
+              <% if req != nil %>
+                  <% if req.status == 'accepted' %>
+                    <a href="/delete_follow_request/<%= req.id %>">Unfollow</a>
+                  <% elsif req.status == 'pending' %>
+                    Request sent. <a href="/delete_follow_request/<%= req.id %>">Cancel</a>
+                  <% else %>
+                  <% end %>
+
+              <% else %>
+                  <form action="/insert_follow_request" method="post" >
+
+                  <input type="hidden" id="query_sender_id" name="query_sender_id" value=<%=current_user.id%>>
+                  <input type="hidden" id="query_recipient_id" name="query_recipient_id" value=<%=a_user.id%>>
+
+                  <button>
+                    Follow
+                  </button>
+                  </form>
+              <% end %>
+          <% end %>
+
         </td>
 
         <td>

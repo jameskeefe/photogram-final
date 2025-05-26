@@ -14,6 +14,8 @@
 class Photo < ApplicationRecord
   validates(:poster, { :presence => true })
 
+  mount_uploader(:image, ImageUploader)
+
   # Association accessor methods to define:
   
   ## Direct associations

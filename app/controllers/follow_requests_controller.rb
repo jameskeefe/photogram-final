@@ -21,13 +21,13 @@ class FollowRequestsController < ApplicationController
     the_follow_request = FollowRequest.new
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
     the_follow_request.sender_id = params.fetch("query_sender_id")
-    the_follow_request.status = params.fetch("query_status")
+    the_follow_request.status = "pending"
 
     if the_follow_request.valid?
       the_follow_request.save
-      redirect_to("/follow_requests", { :notice => "Follow request created successfully." })
+      redirect_to("/users", { :notice => "Follow request created successfully." })
     else
-      redirect_to("/follow_requests", { :alert => the_follow_request.errors.full_messages.to_sentence })
+      redirect_to("/users", { :alert => the_follow_request.errors.full_messages.to_sentence })
     end
   end
 
@@ -53,6 +53,6 @@ class FollowRequestsController < ApplicationController
 
     the_follow_request.destroy
 
-    redirect_to("/follow_requests", { :notice => "Follow request deleted successfully."} )
+    redirect_to("/users", { :notice => "Follow request deleted successfully."} )
   end
 end

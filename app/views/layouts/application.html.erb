@@ -29,8 +29,6 @@
       </ul>
     </nav>
 
-    <%= yield %>
-
     <% if notice.present? %>
       <div>
         <%= notice %>
@@ -42,5 +40,8 @@
         <%= alert %>
       </div>
     <% end %>
+
+    <%= yield %>
+
   </body>
 </html>
