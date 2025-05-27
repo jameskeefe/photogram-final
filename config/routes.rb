@@ -82,6 +82,4 @@ Rails.application.routes.draw do
   get("/delete_follow_request/:path_id", { :controller => "follow_requests", :action => "destroy" })
 
   #------------------------------
-
-
 end
